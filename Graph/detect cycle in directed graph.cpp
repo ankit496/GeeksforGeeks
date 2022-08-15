@@ -2,49 +2,50 @@
 #include<vector>
 #include<queue>
 using namespace std;
-void addEdge(vector<int> adj[],int u,int v){
+void addedge(vector<int> adj[],int u,int v){
     adj[u].push_back(v);
-    adj[v].push_back(u);
 }
-void print(vector<int> adj[],int v){
-    for(int i=0;i<v;i++){
-        for(auto x:adj[i])
-            cout<<x<<" ";
-        cout<<endl;
-    }
-}
-bool dfsrec(vector<int> adj[],int s,int parent,bool visited[]){
+bool dfsrec(vector<int> adj[],int s,bool rec[],bool visited[]){
         visited[s]=true;
+        rec[s]=true;
         for(int u:adj[s]){
             if(visited[u]==false){
-                if(dfsrec(adj,u,s,visited))
+                if(dfsrec(adj,u,rec,visited))
                     return true;
             }
-            else if(u!=parent)
+            else if(rec[u]==true)
                 return true;
         }
+        rec[s]=false;
         return false;
     }
 bool isCycle(int v, vector<int> adj[]) {
         bool visited[v];
-        for(int i=0;i<v;i++)
+        bool rec[v];
+        for(int i=0;i<v;i++){
             visited[i]=false;
+            rec[i]=false;
+        }
         for(int j=0;j<v;j++){
             if(visited[j]==false){
-                if(dfsrec(adj,j,-1,visited))
+                if(dfsrec(adj,j,rec,visited))
                     return true;
             }
         }
         return false;
 }
+void print(vector<int> adj[],int v){
+    for(int i=0;i<v;i++){
+        for(auto x:adj[i]);
+    }
+}
 int main(){
-    int v=5;
+    int v=4;
     vector<int> adj[v];
-    addEdge(adj,1, 0);
-    //addEdge(adj,0, 2);
-    //addEdge(adj,2, 1);
-    //addEdge(adj,0, 3);
-    //addEdge(adj,3, 4);
+    addedge(adj,0,1);
+    addedge(adj,1,2);
+    addedge(adj,2,3);
+    //addedge(adj,3,1);
     print(adj,v);
     cout<<isCycle(v,adj);
     return 0;
